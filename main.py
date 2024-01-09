@@ -14,8 +14,6 @@ def todos():
     # json形式に変換
     todos = response.json()
 
-    print(todos)
-
     # レスポンスを返す
     return jsonify(data=todos, success=True), 200
 
