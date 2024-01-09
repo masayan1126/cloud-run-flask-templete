@@ -1,0 +1,27 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-docker-image'
+    args: ['build', '-t', "${_REPO_IMAGE_FULL_PATH}", ".", '-f', Dockerfile"]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'ls-docker-image'
+    args: ['run', "${_REPO_IMAGE_FULL_PATH}", ls, "-la"]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-docker-image-to-gcr'
+    args: ["push", "${_REPO_IMAGE_FULL_PATH}"]
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'deploy-to-cloud-run'
+    entrypoint: gcloud
+    args:
+    - 'run'
+    - 'deploy'
+    - 'cloud-run-sample-service'
+    - '--image'
+    - '${_REPO_IMAGE_FULL_PATH}'
+    - '--region'
+    - 'asia-northeast1'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
