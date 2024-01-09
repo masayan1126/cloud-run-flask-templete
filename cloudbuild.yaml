@@ -1,7 +1,7 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     id: 'build-docker-image'
-    args: ['build', '-t', "${_REPO_IMAGE_FULL_PATH}", ".", '-f', Dockerfile"]
+    args: ['build', '-t', "${_REPO_IMAGE_FULL_PATH}", ".", "-f", "Dockerfile"]
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'ls-docker-image'
